@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import os, sys
 import json
 import numpy as np
