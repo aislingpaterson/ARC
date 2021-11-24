@@ -207,6 +207,111 @@ def solve_681b3aeb(x):
 
     return y_hat
 
+def solve_c8cbb738(x):
+    ''' Assumptions made for this task:
+      - the most prevalent colour in the input will always be the 'background colour'
+      - (-1) is not a possible colour code 
+    
+    Transformation carried out:
+    1. The background colour of the grid is detected by determining the most prevalent colour in the grid (as per assumptions).
+    2. The set of distinct colours in the grid is determined, and the background colour removed from this set.
+    3. For each colour in this set, the grid is stripped of all other colours. This resulting array is 'shaved' of empty rows and columns
+    until the beginning of the shape is reached. All empty rows and columns are not removed, since some of these exist between the boundaries 
+    of the shape and give the shape its structure. Hence the 'trimming' of empty rows from the grid.
+    4. This is repeated on the original grid until a list of each individual-shaped array is obtained.
+    5. The maximum row and column shape from these arrays is determined, and this is set as the shape of the output.
+    6. For the arrays which do not have this output shape, they are padded with empty row or column arrays to reach this shape. 0 is used at this stage as the colour 
+    for an 'empty' array so that the addition of arrays does not change the colour code elements.
+    7. All the individual arrays are added to give the predicted output.
+    
+    All of the training/test grids appear to solve succesfully with this function. 
+    '''
+
+    def detect_background_colour(x):
+        '''
+        Count frequency for each distinct colour code in array
+        If colour code is already a key in the dictionary, increment the count,
+        otherwise create a new key. 
+        '''
+        freq_dict = dict()
+        for i in range(len(x)):
+            if x[i] in freq_dict.keys():
+                freq_dict[x[i]] += 1
+            else:
+                freq_dict[x[i]] = 1
+                
+        # determine max count - select corresponding background colour
+        max_count = 0
+        background_colour = -1
+        for i in freq_dict:
+            if max_count < freq_dict[i]:
+                background_colour = i
+                max_count = freq_dict[i]
+                
+        return background_colour
+    
+    def shave_empty_rows(x):
+        '''Wish to 'shave' empty/background rows from each shape in the grid. Do not
+        want to remove empty rows inside the shape so to keep the shape structure'''
+
+        while np.all(x[0,]==-1) == True or np.all(x[-1,]==-1) == True:
+            # trim empty rows - from top
+            if np.all(x[0,]==-1):
+                x = np.array_split(x,[1],axis=0)[1]
+            # trim empty rows - from bottom
+            if np.all(x[-1,]==-1):
+                x = np.array_split(x,[-1],axis=0)[0]
+        return x
+
+    def transform_to_output_shape(x, output_shape):
+        '''
+        if array shape is less than the desired output shape (3x3) - pad with 'empty' (using (-1) values) 
+        rows and columns until the desired output shape is reached
+        '''
+        while x.shape != output_shape:
+            if x.shape[0] != output_shape[0]:
+                b = np.negative(np.ones(x.shape[1]))
+                x = np.vstack((b,x,b))
+            if x.shape[1] != output_shape[1]:
+                a = np.negative(np.ones(x.shape[0])).reshape(-1,1)
+                x = np.hstack((a,x,a))
+        return x
+    
+    # detect background colour and wipe to -1 (assumption made that this is not a possible colour code)
+    background_colour = detect_background_colour(x.flatten().tolist())
+    x = np.where(x == background_colour, -1, x) 
+    
+    distinct_colours = set(x.flatten().tolist())
+    distinct_colours.remove(-1)
+    
+    original_array = np.copy(x)
+    individual_colour_arrays = []
+
+    # for each individual array - trim the 'empty' rows and columns surrounding the shape
+    for colour in distinct_colours:
+        x_individual_colour = np.where(x != colour, -1, x) 
+        x_individual_colour = shave_empty_rows(x_individual_colour)
+        x_individual_colour = shave_empty_rows(x_individual_colour.T)
+        x_individual_colour = x_individual_colour.T
+        individual_colour_arrays.append(x_individual_colour)
+    
+    # determine output size - will be max of individual shape sizes
+    shape_arrays = [x.shape for x in individual_colour_arrays]
+    output_shape = np.max([i for (i,j) in shape_arrays]), np.max([j for (i,j) in shape_arrays])
+    
+    # pad arrays which need padding 
+    # also changing (-1) used as the background to zero, for array addition to work
+    for i in range(len(individual_colour_arrays)):
+        individual_colour_arrays[i] = transform_to_output_shape(individual_colour_arrays[i], output_shape)
+        individual_colour_arrays[i] = np.where(individual_colour_arrays[i] == -1, 0, individual_colour_arrays[i]) 
+    
+    y_hat = np.sum(individual_colour_arrays,axis=0)
+    
+    # switch 'empty' cells back to background colour
+    y_hat = np.where(y_hat == 0, background_colour, y_hat) 
+    
+    return y_hat
+
 def main():
     # Find all the functions defined in this file whose names are
     # like solve_abcd1234(), and run them.
