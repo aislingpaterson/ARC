@@ -29,7 +29,7 @@ A "grid" is a rectangular matrix (list of lists) of integers between 0 and 9 (in
 
 When looking at a task, a test-taker has access to inputs & outputs of the demonstration pairs, plus the input(s) of the test pair(s). The goal is to construct the output grid(s) corresponding to the test input grid(s), using 3 trials for each test input. "Constructing the output grid" involves picking the height and width of the output grid, then filling each cell in the grid with a symbol (integer between 0 and 9, which are visualized as colors). Only *exact* solutions (all cells match the expected answer) can be said to be correct.
 
-## Hand-coded solutions format 
+## Hand-coded solutions
 
 The `src` directory contains 3 samples of hand-coded solutions to ARC tasks, all contained with the `manual_solve.py` file.
 A `requirements.txt` file in the master directory is provided for the running of this script. 
