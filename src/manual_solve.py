@@ -9,6 +9,62 @@ import random
 
 '''
 Aisling Paterson, student no. 21249294
+
+Github repo - https://github.com/aislingpaterson/ARC
+
+*Some comments on the Python features and libraries used*
+
+I primarily solved the tasks using the NumPy attributes and methods for arrays. Some particular, repeatedly used NumPy methods and attributes were:
+-	The numpy.all or numpy.any method for returning a Boolean value for a condition on a row/column in an array – used for 
+    determining if an entire row or column was a particular colour, for example.
+-	The numpy.array_split method for splitting arrays to separate shapes into distinct arrays, 
+    used to separate distinct shapes into distinct arrays, for example.
+-	The numpy.where method was used frequently for applying conditions to arrays, e.g. transforming a particular colour code to another.
+-	The NumPy transpose attribute (numpy.ndarray.T) was used for applying row-wise operations to columns by transposing the grid, and vice versa. 
+-	The NumPy shape attribute (numpy.ndarray.shape) was frequently used – for establishing the input array shape, for example.
+-	The numpy.vstack or numpy.hstack methods were used a number of times for padding arrays with rows or columns to transform the 
+    array to a desired shape.
+
+*Some commonalities and differences among the chosen tasks, and the broader dataset* 
+
+The page numbers and discussion referenced below relate to the subject paper – François Chollet (2019) On the Measure of Intelligence; arXiv:1911.01547.
+
+All of the chosen tasks, and seemingly in the entire dataset, are reasonably solvable by a human. From the subject paper, it’s clear that this is intentionally the case 
+(given the intention is to replicate human-like intelligence), in addition with the tasks not requiring any prior knowledge or training of the task solution on the 
+part of the human solver (page 46). One difficulty discussed by Chollet is that it is difficult to measure or represent the prior knowledge that a human test taker has (page 26). 
+Thus it is difficult to capture all of this prior knowledge (page 54) and thus distinguish this prior knowledge from true intelligence. Chollet highlights that ‘A measure of intelligence should
+imperatively control for experience and priors’ (page 27)  - and the difficulty in understanding human prior knowledge makes it difficult to assess pure intelligence through any test.
+
+Another commonality between the tasks, and perhaps the most important one, is the inability to generalise different tasks. It is not possible for a manual test-taker 
+to correctly solve a test task from studying the training set of another task, or for a hand-coded solution to work on multiple tasks, as in this assignment. 
+This is important to ensure that the machine cannot just learn to create a general solution to multiple tasks to achieve high-accuracy - true human-like intelligence is 
+required for arriving at a solution. 
+
+Another commonality is that all of the tasks in the dataset have a very small training set (typically 2 or 3 instances). Again, the aim appears to be that the tasks 
+are quickly understood by the human solver. Having a much larger training set might not benefit a human solver, but would certainly benefit a machine, and with the 
+aim of the test being to have a machine emulate human intelligence, the training set is kept to a small size. 
+
+Another commonality, which is raised as an issue by Chollet (page 54), is that the measure of success is binary; the task is either correctly solved or not. Chollet 
+suggests expanding the tests to measure the level of accuracy achieved by the human or machine solver, by monitoring how many attempts, with feedback, it takes for the 
+test taker to correctly understand the task. This could provide a granularity into the difficulty level of a task, as well as a better assessment of human or machine performance.
+
+Another commonality is that the training set represents a complete set to be able to correctly solve the test task(s) – none of the tasks require any guesswork, assuming the pattern
+among the training set is correctly understood by the solver. In this way, this lack of ambiguity is also an important commonality so that there is not multiple solutions for a given task. 
+
+Another important commonality is that the test set only features tasks that do not appear in the training set. 
+This ensures that the task must be understood in order to be solved – there are no cases in which the solver could repeat a training instance in order to pass the test. 
+Otherwise a false-high sense of intelligence could be measured for the human or machine solver. 
+
+The tasks also share some format commonalities. For example, in all cases the tasks are based on a rectangular grid, containing ‘objects’ which can be distinguished by 
+their colour or spatial connections. This allows for this ‘object cohesion’ (page 48) to be set as a definite element of prior human knowledge.
+
+Another commonality in the tasks I chose, is that no feature in the training or test input grids is irrelevant to the output. For example, even what I denote as the 
+‘noise’ in task 5ad4f10b, determines the colour of the other shape mapped to the 3x3 output. This contributes to the ease of solving these tasks, as well as ensuring 
+that the training set only needs to be small in size to correctly understand the task.
+
+A major difference is the differing assumptions that need to be made in order to hand-code solutions for the tasks (i.e. the lack of generality). 
+For example, I had to assume for task 5ad4f10b that the output would always be 3x3. As discussed, these differences between the tasks mean that there is unlikely to be general hard-coded solution (non-AI) which could solve multiple tasks. As mentioned earlier, this is important for ensuring the machine cannot just create a general solution to multiple tasks and human-like intelligence or similar is required for arriving at a solution.
+
 '''
 
 def solve_5ad4f10b(x):
