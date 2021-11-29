@@ -1,13 +1,12 @@
-# The Abstraction and Reasoning Corpus (ARC)
+# The Abstraction and Reasoning Corpus (ARC), with a Sample of Hand-Coded Solutions 
 
-This repository contains the ARC task data, as well as a browser-based interface for humans to try their hand at solving the tasks manually.
+This repository contains the ARC task data, as well as a browser-based interface for humans to try their hand at solving the tasks manually. It also contains hand-coded solutions to 3 sample tasks.
 
 *"ARC can be seen as a general artificial intelligence benchmark, as a program synthesis benchmark, or as a psychometric intelligence test. It is targeted at both humans and artificially intelligent systems that aim at emulating a human-like form of general fluid intelligence."*
 
 A complete description of the dataset, its goals, and its underlying logic, can be found in: [The Measure of Intelligence](https://arxiv.org/abs/1911.01547).
 
 As a reminder, a test-taker is said to solve a task when, upon seeing the task for the first time, they are able to produce the correct output grid for *all* test inputs in the task (this includes picking the dimensions of the output grid). For each test input, the test-taker is allowed 3 trials (this holds for all test-takers, either humans or AI).
-
 
 ## Task file format
 
@@ -30,6 +29,17 @@ A "grid" is a rectangular matrix (list of lists) of integers between 0 and 9 (in
 
 When looking at a task, a test-taker has access to inputs & outputs of the demonstration pairs, plus the input(s) of the test pair(s). The goal is to construct the output grid(s) corresponding to the test input grid(s), using 3 trials for each test input. "Constructing the output grid" involves picking the height and width of the output grid, then filling each cell in the grid with a symbol (integer between 0 and 9, which are visualized as colors). Only *exact* solutions (all cells match the expected answer) can be said to be correct.
 
+## Hand-coded solutions format 
+
+The `src` directory contains 3 samples of hand-coded solutions to ARC tasks, all contained with the `manual_solve.py` file.
+A `requirements.txt` file in the master directory is provided for the running of this script. The script contains 3 distinct `solve.*`
+functions which each provide a solution for the specified task numbers - aligning with the task numbers in the `data` directory. The 
+file also provides appropriate functions for selecting the matching task in the `data/training` directory and 
+selecting the individual input grids (as arrays) for each training and test instance of this task. Each `solve.*` 
+function returns the suggested solution for the given training or test input array (grid) and the `manual_solve.py` file provides a function to test this against the true solution in the task JSON. 
+On running this script, the input test grid, the true test grid solution and the attempted solution are outputted to the command line, 
+along with an assertion on whether the true and hypothesised solutions match.
+The `manual_solve.py` file also includes comments on the various Python functions required in the hand-coded solutions, as well as a discussion on the commonalities and differences among the ARC tasks. 
 
 ## Usage of the testing interface
 
