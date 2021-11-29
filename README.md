@@ -32,13 +32,15 @@ When looking at a task, a test-taker has access to inputs & outputs of the demon
 ## Hand-coded solutions format 
 
 The `src` directory contains 3 samples of hand-coded solutions to ARC tasks, all contained with the `manual_solve.py` file.
-A `requirements.txt` file in the master directory is provided for the running of this script. The script contains 3 distinct `solve.*`
-functions which each provide a solution for the specified task numbers - aligning with the task numbers in the `data` directory. The 
-file also provides appropriate functions for selecting the matching task in the `data/training` directory and 
-selecting the individual input grids (as arrays) for each training and test instance of this task. Each `solve.*` 
-function returns the suggested solution for the given training or test input array (grid) and the `manual_solve.py` file provides a function to test this against the true solution in the task JSON. 
+A `requirements.txt` file in the master directory is provided for the running of this script. 
+
+The script contains 3 distinct `solve.*` functions which each provide a solution for the specified task numbers - aligning with the task numbers in the `data` directory. The file also provides appropriate functions for selecting the matching task in the `data/training` directory and  selecting the individual input grids (as arrays) for each training and test instance of this task. 
+
+Each `solve.*` function returns the suggested solution for the given training or test input array (grid) and the `manual_solve.py` file provides a function to test this against the true solution in the task JSON. 
+
 On running this script, the input test grid, the true test grid solution and the attempted solution are outputted to the command line, 
 along with an assertion on whether the true and hypothesised solutions match.
+
 The `manual_solve.py` file also includes comments on the various Python functions required in the hand-coded solutions, as well as a discussion on the commonalities and differences among the ARC tasks. 
 
 ## Usage of the testing interface
